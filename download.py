@@ -18,7 +18,11 @@
 
 import sys
 import os
-import urllib.request
+try:
+    from urllib.request import urlretrieve
+except ImportError:
+    from urllib import urlretrieve  # py2
+
 import tarfile
 import zipfile
 
@@ -70,7 +74,7 @@ def download(base_url, filename, download_dir):
 
         # Download the file from the internet.
         url = base_url + filename
-        file_path, _ = urllib.request.urlretrieve(url=url,
+        file_path, _ = urlretrieve(url=url,
                                                   filename=save_path,
                                                   reporthook=_print_download_progress)
 
@@ -108,7 +112,7 @@ def maybe_download_and_extract(url, download_dir):
             os.makedirs(download_dir)
 
         # Download the file from the internet.
-        file_path, _ = urllib.request.urlretrieve(url=url,
+        file_path, _ = urlretrieve(url=url,
                                                   filename=file_path,
                                                   reporthook=_print_download_progress)
 
